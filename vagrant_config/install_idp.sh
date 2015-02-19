@@ -31,10 +31,10 @@ tar xzf $idp_archive
 rm -f $idp_archive
 
 idp_home=/opt/$idp_dir_name
-cd $idp_home
+cd $idp_home/bin
 
 # Empty lines below are significant, as they represent <enter> keystrokes
-. ./install.sh < cat <<EOF
+./install.sh <<EOF
 
 
 
@@ -44,6 +44,8 @@ password
 password
 password
 EOF
+
+exit
 
 echo "Registering IDP webapp with Tomcat" | tee /dev/fd/3
 cat <<EOF> $tomcat_home/conf/Catalina/localhost/idp.xml
@@ -56,3 +58,5 @@ cat <<EOF> $tomcat_home/conf/Catalina/localhost/idp.xml
 EOF
 
 service tomcat restart
+
+echo "Done" | tee /dev/fd/3
